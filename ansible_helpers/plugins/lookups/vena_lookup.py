@@ -15,7 +15,8 @@ class VenaLookup(VenaLookupBase):
     """
     def __init__(self, flatten=False, no_args=False, **kwargs):
         super(VenaLookup, self).__init__(**kwargs)
-        self.flatten = flatten
+        self.flatten = flatten #set to true if you lookup returns a list and you want to flatten all arguments
+                               #for each pair of args given to the lookup
         self.no_args = no_args #set true if your lookup is expected not to accept args
 
     def run(self, *arg_list, **kwargs):
