@@ -36,12 +36,12 @@ class VenaLookup(VenaLookupBase):
                 raise AnsibleError("expected at least one arg but none found!")
 
         results = []
-        for args in arg_list:
-            r = self.do_lookup(*args, **extra_args)
-            if self.flatten:
-                results.extend(r)
-            else:
-                results.append(r)
+        r = self.do_lookup(*arg_list, **extra_args)
+
+        if self.flatten:
+            results.extend(r)
+        else:
+            results.append(r)
 
         return results
 
