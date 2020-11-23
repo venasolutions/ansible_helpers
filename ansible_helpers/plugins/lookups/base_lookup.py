@@ -20,7 +20,7 @@ class VenaLookupBase(LookupBase):
                     raise AnsibleError("when providing keys, must provide access key, secret key and security token")
                 kwargs["aws_access_key_id"] = keys[0]
                 kwargs["aws_secret_access_key"] = keys[1]
-                kwargs["aws_security_token"] = keys[2]
+                kwargs["aws_session_token"] = keys[2]
         else:
             if keys:
                 if len(keys) != 2:
