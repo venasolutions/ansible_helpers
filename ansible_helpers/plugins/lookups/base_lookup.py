@@ -12,14 +12,17 @@ class VenaLookupBase(LookupBase):
 
     def get_client(self, service, region=None, keys=None):
         kwargs = {
-            "config" : Config(retries = {"max_attempts" : 100})
+            "config": Config(retries={"max_attempts": 100})
         }
-        if keys:
-            if len(keys) != 2:
-                raise AnsibleError("when providing keys, must provide both access key and secret key")
-            kwargs["aws_access_key_id"] = keys[0]
-            kwargs["aws_secret_access_key"] = keys[1]
-
+        try:
+            if keys:
+                access_key, secret_key, *session_token = keys
+                kwargs["aws_access_key_id"] = access_key
+                kwargs["aws_secret_access_key"] = secret_key
+                if session_token:
+                    kwargs["aws_session_token"] = session_token[0]
+        except ValueError:
+            raise AnsibleError("when providing keys, must provide required access credentials.")
         return boto3.client(service, region, **kwargs)
 
     def get_value(self, obj, path):
