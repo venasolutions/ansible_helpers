@@ -28,12 +28,15 @@ class VenaLookup(VenaLookupBase):
 
         arg_list, extra_args = self.get_args(arg_list, kwargs)
 
-        if not arg_list and not extra_args:
-            if self.no_args:
-                #special case for lookups that don't accept any args, call once
-                return [ self.do_lookup() ]
+        if not arg_list:
+            if not extra_args:
+                if self.no_args:
+                    #special case for lookups that don't accept any args, call once
+                    return [self.do_lookup()]
+                else:
+                    raise AnsibleError("expected at least one arg but none found!")
             else:
-                raise AnsibleError("expected at least one arg but none found!")
+                return [self.do_lookup(self, **kwargs)]
 
         results = []
         for args in arg_list:
