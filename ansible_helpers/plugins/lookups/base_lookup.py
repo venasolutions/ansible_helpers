@@ -19,7 +19,7 @@ class VenaLookupBase(LookupBase):
                 access_key, secret_key, *session_token = keys
                 kwargs["aws_access_key_id"] = access_key
                 kwargs["aws_secret_access_key"] = secret_key
-                if session_token:
+                if session_token and session_token[0]:
                     kwargs["aws_session_token"] = session_token[0]
         except ValueError:
             raise AnsibleError("when providing keys, must provide required access credentials.")
